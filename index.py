@@ -3,10 +3,11 @@ import requests
 
 app = Flask(__name__)
 
+
 def pegarFotos(host, key, codigo):
     import requests
 
-    url = host + "imoveis/detalhes?key="+ key +"&imovel="+ codigo +"&pesquisa={\"fields\":[{\"Foto\":[\"Foto\"]}]}"
+    url = host + "imoveis/detalhes?key=" + key + "&imovel=" + codigo + "&pesquisa={\"fields\":[{\"Foto\":[\"Foto\"]}]}"
 
     headers = {
         'Accept': 'application/json'
