@@ -30,7 +30,7 @@ def requisitar():
         objeto = {
             "Valor": response[id]["ValorVenda"],
             "Quartos": f'{response[id]["Dormitorios"]} quartos',
-            "Metros": response[id]["AreaPrivativa"],
+            "Metros": f'{response[id]["AreaPrivativa"]} m²',
             "Vagas": f'{response[id]["Vagas"]} vagas',
             "Operacao": response[id]["Status"],
             "Titulo": f"{response[id]['Categoria']} em {response[id]['Cidade']}",
