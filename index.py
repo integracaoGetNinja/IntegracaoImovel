@@ -29,9 +29,9 @@ def requisitar():
     for id in ids:
         objeto = {
             "Valor": response[id]["ValorVenda"],
-            "Quartos": response[id]["Dormitorios"],
+            "Quartos": f'{response[id]["Dormitorios"]} quartos',
             "Metros": response[id]["AreaPrivativa"],
-            "Vagas": response[id]["Vagas"],
+            "Vagas": f'{response[id]["Vagas"]} vagas',
             "Operacao": response[id]["Status"],
             "Titulo": f"{response[id]['Categoria']} em {response[id]['Cidade']}",
             "Bairro": response[id]["Bairro"],
