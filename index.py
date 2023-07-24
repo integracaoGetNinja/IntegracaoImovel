@@ -9,7 +9,7 @@ def requisitar():
 
     payload = request.get_json()["payload"]
 
-    fields = '["ValorVenda", "Bairro" ,"Dormitorios" , "AreaTotal" , "Vagas" , "Status", "Cidade" , "Categoria" ,  "FotoDestaque", "FotoDestaquePequena"]'
+    fields = '["ValorVenda", "Bairro" ,"Dormitorios" , "AreaPrivativa" , "Vagas" , "Status", "Cidade" , "Categoria" ,  "FotoDestaque", "FotoDestaquePequena"]'
 
     key = payload["key"]
     host = payload["host"]
@@ -30,7 +30,7 @@ def requisitar():
         objeto = {
             "Valor": response[id]["ValorVenda"],
             "Quartos": response[id]["Dormitorios"],
-            "Metros": response[id]["AreaTotal"],
+            "Metros": response[id]["AreaPrivativa"],
             "Vagas": response[id]["Vagas"],
             "Operacao": response[id]["Status"],
             "Titulo": f"{response[id]['Categoria']} em {response[id]['Cidade']}",
