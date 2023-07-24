@@ -3,12 +3,28 @@ import requests
 
 app = Flask(__name__)
 
+def pegarFotos(host, key, codigo):
+    import requests
+
+    url = host + "imoveis/detalhes?key="+ key +"&imovel="+ codigo +"&pesquisa={\"fields\":[{\"Foto\":[\"Foto\"]}]}"
+
+    headers = {
+        'Accept': 'application/json'
+    }
+
+    response = requests.request("GET", url, headers=headers).json()
+
+    return {
+        "Foto1": response["Foto"]["1"]["Foto"],
+        "Foto2": response["Foto"]["2"]["Foto"]
+    }
+
 
 @app.route("/requisicao", methods=["POST"])
 def requisitar():
     payload = request.get_json()["payload"]
 
-    fields = '["ValorVenda", "Bairro" ,"Dormitorios" , "AreaPrivativa" , "Vagas" , "Status", "Cidade" , "Categoria" ,  "FotoDestaque", "FotoDestaquePequena"]'
+    fields = '["ValorVenda", "Bairro" ,"Dormitorios" , "AreaPrivativa" , "Vagas" , "Status", "Cidade" , "Categoria" ,  "FotoDestaque", "FotoDestaquePequena", "UF"]'
 
     key = payload["key"]
     host = payload["host"]
@@ -21,12 +37,6 @@ def requisitar():
             ', "fields":' + fields + ',"order":{"Bairro":"asc"},"paginacao":{"pagina":1,"quantidade":50}}'
     ).json()
 
-    # for imovel in payload["id_moveis"]:
-    #     response2 = request.get(
-    #         headers={'Accept': 'application/json'},
-    #         url=host + 'imoveis/detalhes?key=' + key + '&imovel=' + imovel + '&pesquisa={"fields":' + fields
-    #     )
-
     ids = [chave for chave in response.keys() if isinstance(response[chave], dict)]
 
     objetos_planilhas = []
@@ -34,6 +44,7 @@ def requisitar():
     for id in ids:
         qtd_quartos = int(response[id]["Dormitorios"])
         qtd_vagas = int(response[id]["Vagas"])
+        fotos = pegarFotos(host, key, id)
 
         objeto = {
             "Valor": response[id]["ValorVenda"],
@@ -43,9 +54,9 @@ def requisitar():
             "Operacao": response[id]["Status"],
             "Bairro": f"Bairro {response[id]['Bairro']}",
             "Tipo": response[id]['Categoria'],
-            "Cidade": response[id]['Cidade'],
-            "Foto1": response[id]['FotoDestaque'],
-            "Foto2": response[id]['FotoDestaquePequena']
+            "Cidade": f"{response[id]['Cidade']}/{response[id]['UF']}",
+            "Foto1": fotos["Foto1"],
+            "Foto2": fotos["Foto2"]
         }
         objetos_planilhas.append(objeto)
 
