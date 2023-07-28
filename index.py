@@ -14,10 +14,10 @@ def pegarFotos(host, key, codigo):
     }
 
     response = requests.request("GET", url, headers=headers).json()
-
+    fotos_id = [f for f in response["Foto"]]
     return {
-        "Foto1": response["Foto"]["1"]["Foto"],
-        "Foto2": response["Foto"]["2"]["Foto"]
+        "Foto1": response["Foto"][fotos_id[0]]["Foto"],
+        "Foto2": response["Foto"][fotos_id[1]]["Foto"]
     }
 
 
